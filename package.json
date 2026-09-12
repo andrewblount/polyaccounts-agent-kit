@@ -1,0 +1,36 @@
+{
+  "name": "polyaccounts-agent-kit",
+  "version": "1.0.0",
+  "description": "Accounting for companies that work with AI agents. A synthetic MCP demo and full-access hosted connector.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "polyaccounts-demo": "demo.mjs",
+    "polyaccounts-mcp": "polyaccounts-mcp.mjs"
+  },
+  "scripts": {
+    "demo": "node demo.mjs",
+    "example": "node examples/expense-review.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andrewblount/polyaccounts-agent-kit.git"
+  },
+  "homepage": "https://polyaccounts.com/demo",
+  "files": [
+    "demo.mjs",
+    "fixture.mjs",
+    "polyaccounts-mcp.mjs",
+    "examples",
+    "README.md",
+    "LICENSE",
+    "workflows",
+    "manifest.json",
+    "manifest-hosted.json",
+    "icon.png"
+  ]
+}

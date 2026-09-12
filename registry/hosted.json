@@ -1,0 +1,23 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.andrewblount/polyaccounts",
+  "title": "PolyAccounts accounting",
+  "description": "Company-scoped accounting reads, writes and workflows. Supervised synthetic evaluation only.",
+  "version": "1.0.0",
+  "repository": {
+    "url": "https://github.com/andrewblount/polyaccounts-agent-kit",
+    "source": "github"
+  },
+  "websiteUrl": "https://polyaccounts.com/agents",
+  "packages": [
+    {
+      "registryType": "mcpb",
+      "identifier": "https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.0.0/polyaccounts-hosted.mcpb",
+      "version": "1.0.0",
+      "fileSha256": "2c3a72045968a49ffed7ecb564046a5f1c6420a6e4ef57f0d511ff4f0fb2c37a",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

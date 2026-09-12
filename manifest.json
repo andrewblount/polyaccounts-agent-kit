@@ -1,0 +1,65 @@
+{
+  "icon": "icon.png",
+  "manifest_version": "0.3",
+  "version": "1.0.0",
+  "author": {
+    "name": "Blue Cielo, Inc.",
+    "url": "https://polyaccounts.com"
+  },
+  "homepage": "https://polyaccounts.com/agents",
+  "documentation": "https://polyaccounts.com/connect-agent",
+  "support": "https://github.com/andrewblount/polyaccounts-agent-kit/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andrewblount/polyaccounts-agent-kit"
+  },
+  "license": "MIT",
+  "compatibility": {
+    "runtimes": {
+      "node": ">=20.0.0"
+    }
+  },
+  "name": "polyaccounts-demo",
+  "display_name": "PolyAccounts synthetic accounting demo",
+  "description": "Explain expense changes with exact balances and ledger evidence. Invented data, no account, no network, read-only.",
+  "server": {
+    "type": "node",
+    "entry_point": "demo.mjs",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/demo.mjs"
+      ]
+    }
+  },
+  "tools": [
+    {
+      "name": "accounting_context",
+      "description": "Inspect Juniper Studio, an invented USD company, its accounts and available periods. No credentials, customer records or network access."
+    },
+    {
+      "name": "ledger_entries",
+      "description": "Read exact decimal strings and stable entry IDs from synthetic July and August 2026 ledger data. Both debit and credit legs are available."
+    },
+    {
+      "name": "trial_balance",
+      "description": "Calculate period activity from both legs of synthetic journal entries using exact integer arithmetic. A balanced trial balance alone does not establish correct books."
+    },
+    {
+      "name": "expense_changes",
+      "description": "Compare synthetic August 2026 with July 2026 and return exact expense differences with ledger evidence. The fixture clock is August 31, 2026, independent of today."
+    }
+  ],
+  "prompts": [
+    {
+      "name": "expense_review",
+      "description": "Explain expense changes with source entries in the synthetic demo",
+      "text": "Use accounting_context to establish the synthetic periods. What changed in expenses this month? Use expense_changes, verify each cited ID with ledger_entries and explain the August versus July 2026 comparison. Distinguish recorded facts from inferred causes. Show exact amounts, currency, dates and entry IDs."
+    },
+    {
+      "name": "review_books",
+      "description": "Check synthetic trial balance and inspect ledger evidence",
+      "text": "Read accounting_context, run trial_balance for each available month, and inspect ledger_entries. Report debit and credit totals and evidence. Do not equate a balanced trial balance with complete or correct books."
+    }
+  ]
+}

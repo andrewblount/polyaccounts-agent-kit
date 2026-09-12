@@ -1,0 +1,32 @@
+name: Publish official MCP Registry metadata
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test
+      - name: Verify release artifact hashes
+        run: node scripts/verify-release.mjs
+      - name: Install the official publisher
+        run: |
+          curl --fail --location --silent --show-error https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz --output publisher.tar.gz
+          echo 'a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc  publisher.tar.gz' | sha256sum --check
+          tar xzf publisher.tar.gz mcp-publisher
+      - name: Authenticate using GitHub OIDC
+        run: ./mcp-publisher login github-oidc
+      - name: Publish synthetic demo
+        run: |
+          cp registry/demo.json server.json
+          ./mcp-publisher publish
+      - name: Publish full accounting connector
+        run: |
+          cp registry/hosted.json server.json
+          ./mcp-publisher publish
