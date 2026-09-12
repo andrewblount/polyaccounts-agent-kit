@@ -9,7 +9,7 @@ export const tools = [
   { name: 'ledger_entries', description: 'Read exact decimal strings and stable entry IDs from synthetic July and August 2026 ledger data. Both debit and credit legs are available.', inputSchema: schema({ from: date, to: date, account: { type: 'string', description: 'Exact account name from accounting_context' } }) },
   { name: 'trial_balance', description: 'Calculate period activity from both legs of synthetic journal entries using exact integer arithmetic. A balanced trial balance alone does not establish correct books.', inputSchema: schema({ from: date, to: date }) },
   { name: 'expense_changes', description: 'Compare synthetic August 2026 with July 2026 and return exact expense differences with ledger evidence. The fixture clock is August 31, 2026, independent of today.', inputSchema: schema({}) },
-].map(tool => ({ ...tool, annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false } }));
+].map(tool => ({ ...tool, title: tool.name.replaceAll('_', ' '), annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false } }));
 const prompts = [
   { name: 'expense_review', description: 'Explain expense changes with source entries in the synthetic demo' },
   { name: 'review_books', description: 'Check synthetic trial balance and inspect ledger evidence' },

@@ -14,7 +14,7 @@
       "registryType": "mcpb",
       "identifier": "https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.0.0/polyaccounts-hosted.mcpb",
       "version": "1.0.0",
-      "fileSha256": "2c3a72045968a49ffed7ecb564046a5f1c6420a6e4ef57f0d511ff4f0fb2c37a",
+      "fileSha256": "23ce3bfb4189afa97f18dc19f54ae47effe11964039ca293b6594898f8b573b1",
       "transport": {
         "type": "stdio"
       }

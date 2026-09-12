@@ -1,4 +1,7 @@
 {
+  "privacy_policies": [
+    "https://polyaccounts.com/privacy"
+  ],
   "icon": "icon.png",
   "manifest_version": "0.3",
   "version": "1.0.0",
@@ -22,9 +25,6 @@
   "name": "polyaccounts-hosted",
   "display_name": "PolyAccounts full accounting access",
   "description": "Company-scoped accounting reads, creation, updates, soft deletion and workflows through the hosted API. Approved synthetic evaluation only.",
-  "privacy_policies": [
-    "https://polyaccounts.com/privacy"
-  ],
   "server": {
     "type": "node",
     "entry_point": "polyaccounts-mcp.mjs",

@@ -113,7 +113,7 @@ Do not sum rounded display amounts or infer business causes without evidence.
 - [Early-access pricing](https://polyaccounts.com/pricing)
 - [Request an integration evaluation](https://polyaccounts.com/integration-partners)
 
-## Privacy and support
+## Privacy Policy
 
 The demo reads only its bundled fixture, makes no network calls and writes no files.
 The hosted connector sends requested accounting operations to the company API and
@@ -121,6 +121,11 @@ returns results to your chosen client. That client or its model provider may pro
 the results under its own terms. Review the [PolyAccounts privacy policy](https://polyaccounts.com/privacy).
 Support issues must contain only synthetic examples. Report credential or security
 issues privately to support@polyaccounts.com, not in a public GitHub issue.
+
+The demo stores no accounting inputs or usage data and has no telemetry. Its fixture
+is bundled in the installation. Your MCP client may retain conversations according
+to its own settings. The hosted service retains company records and write receipts
+under its privacy policy. Contact support@polyaccounts.com with privacy requests.
 
 This kit is MIT licensed. The license covers this repository, not the hosted service.
 Directory acceptance and recommendations are not guaranteed.

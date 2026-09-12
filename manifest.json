@@ -1,4 +1,7 @@
 {
+  "privacy_policies": [
+    "https://polyaccounts.com/privacy"
+  ],
   "icon": "icon.png",
   "manifest_version": "0.3",
   "version": "1.0.0",
