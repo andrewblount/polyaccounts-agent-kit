@@ -3,7 +3,7 @@
   "name": "io.github.andrewblount/polyaccounts",
   "title": "PolyAccounts accounting",
   "description": "Company-scoped accounting reads, writes and workflows. Supervised synthetic evaluation only.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "url": "https://github.com/andrewblount/polyaccounts-agent-kit",
     "source": "github"
@@ -12,9 +12,9 @@
   "packages": [
     {
       "registryType": "mcpb",
-      "identifier": "https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.0.0/polyaccounts-hosted.mcpb",
-      "version": "1.0.0",
-      "fileSha256": "23ce3bfb4189afa97f18dc19f54ae47effe11964039ca293b6594898f8b573b1",
+      "identifier": "https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.0.1/polyaccounts-hosted.mcpb",
+      "version": "1.0.1",
+      "fileSha256": "3ab6437785337e716c6ce72c9dd7276ee749b81ba7086b76baf68d5be716a3e9",
       "transport": {
         "type": "stdio"
       }

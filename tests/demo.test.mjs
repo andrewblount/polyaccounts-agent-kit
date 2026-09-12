@@ -1,6 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
+import { mkdtempSync, symlinkSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { dispatch } from '../demo.mjs';
 import { entries, ledger, trialBalance, expenseChanges, units, decimal } from '../fixture.mjs';
 test('expense changes reconcile to retrieved entries using exact arithmetic', () => {
@@ -27,4 +31,12 @@ test('all advertised tools, prompts and resources work without credentials', () 
 test('real stdio example retrieves evidence and completes successfully', () => {
   const result = spawnSync(process.execPath, ['examples/expense-review.mjs'], { cwd: new URL('..', import.meta.url), encoding: 'utf8', timeout: 15000 });
   assert.equal(result.status, 0, result.stderr); assert.match(result.stdout, /Verified 7 expense entries/);
+});
+test('npm-style executable symlink starts the MCP server', { skip: process.platform === 'win32' }, () => {
+  const dir = mkdtempSync(join(tmpdir(), 'polyaccounts-bin-'));
+  try {
+    const link = join(dir, 'polyaccounts-demo'); symlinkSync(fileURLToPath(new URL('../demo.mjs', import.meta.url)), link);
+    const child = spawnSync(process.execPath, [link], { input: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/list' }) + '\n', encoding: 'utf8', timeout: 5000 });
+    assert.equal(child.status, 0, child.stderr); assert.equal(JSON.parse(child.stdout).result.tools.length, 4);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
 });
