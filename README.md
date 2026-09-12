@@ -17,7 +17,7 @@ URL or OAuth connection. Your client must support stdio MCP or desktop extension
 
 ## Install the demo
 
-Download [polyaccounts-demo.mcpb](https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.0.1/polyaccounts-demo.mcpb)
+Download [polyaccounts-demo.mcpb](https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.0.2/polyaccounts-demo.mcpb)
 and open it in an MCPB-compatible client. For Claude Desktop, use Settings,
 Extensions, Advanced settings, Install Extension. Review the extension before installing.
 No account, database, API key or network connection is needed after installation.
@@ -31,7 +31,7 @@ For a stdio client, use this pinned configuration.
       "command": "npx",
       "args": [
         "--yes",
-        "--package=https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.0.1/polyaccounts-agent-kit-1.0.1.tgz",
+        "--package=https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.0.2/polyaccounts-agent-kit-1.0.2.tgz",
         "polyaccounts-demo"
       ]
     }
@@ -70,7 +70,7 @@ missing or the expected change does not reconcile. [Inspect the evidence in a br
 
 ## Connect with full accounting access
 
-Download [polyaccounts-hosted.mcpb](https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.0.1/polyaccounts-hosted.mcpb)
+Download [polyaccounts-hosted.mcpb](https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.0.2/polyaccounts-hosted.mcpb)
 for the hosted connector. In an approved workspace, an administrator opens Settings,
 For AI agents, and issues a company credential. Enter it in the extension's sensitive
 configuration field. The client can read and write that company's accounting data.

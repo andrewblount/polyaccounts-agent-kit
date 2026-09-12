@@ -4,10 +4,10 @@
   ],
   "icon": "icon.png",
   "manifest_version": "0.3",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": {
     "name": "Blue Cielo, Inc.",
-    "url": "https://polyaccounts.com"
+    "url": "https://github.com/andrewblount"
   },
   "homepage": "https://polyaccounts.com/agents",
   "documentation": "https://polyaccounts.com/connect-agent",
