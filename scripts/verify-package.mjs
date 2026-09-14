@@ -3,7 +3,7 @@ import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 const { version } = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
-const packageRef = process.argv[2] || `https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v${version}/polyaccounts-agent-kit-${version}.tgz`;
+const packageRef = process.argv[2] || `https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v${version}/polyaccounts-mcp-${version}.tgz`;
 const input = [{ id: 1, method: 'initialize', params: { protocolVersion: '2025-06-18' } }, { id: 2, method: 'tools/call', params: { name: 'expense_changes', arguments: {} } }].map(r => JSON.stringify({ jsonrpc: '2.0', ...r })).join('\n') + '\n';
 const result = spawnSync(process.platform === 'win32' ? 'npx.cmd' : 'npx', ['--yes', `--package=${packageRef}`, 'polyaccounts-demo'], { encoding: 'utf8', input, timeout: 60000, shell: process.platform === 'win32' });
 assert.equal(result.status, 0, result.stderr);

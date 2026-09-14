@@ -4,7 +4,7 @@
   ],
   "icon": "icon.png",
   "manifest_version": "0.3",
-  "version": "1.0.2",
+  "version": "1.2.0",
   "author": {
     "name": "Blue Cielo, Inc.",
     "url": "https://github.com/andrewblount"
@@ -24,7 +24,7 @@
   },
   "name": "polyaccounts-hosted",
   "display_name": "PolyAccounts full accounting access",
-  "description": "Company-scoped accounting reads, creation, updates, soft deletion and workflows through the hosted API. Approved synthetic evaluation only.",
+  "description": "Company-scoped accounting reads, creation, updates, soft deletion and 86 workflows through the hosted API. Start with a synthetic sandbox or connect an approved workspace.",
   "server": {
     "type": "node",
     "entry_point": "polyaccounts-mcp.mjs",
@@ -42,9 +42,9 @@
     "agent_token": {
       "type": "string",
       "title": "Company agent credential",
-      "description": "Issue a credential from Settings, AI agents in your approved company workspace.",
+      "description": "Issue a credential from Settings, AI agents in your company workspace. Leave empty to start with a synthetic sandbox by calling create_sandbox.",
       "sensitive": true,
-      "required": true
+      "required": false
     }
   },
   "tools": [
@@ -59,6 +59,162 @@
     {
       "name": "trial_balance",
       "description": "Compute exact debit, credit and net debit balances by account from active ledger rows. Omit startDate for cumulative balances through endDate. With startDate, returns period activity. Totals cover all accounts even when the 2,000 account detail cap is reached. Balance is arithmetic evidence, not a certification of correct coding."
+    },
+    {
+      "name": "get_company_setup",
+      "description": "Inspect this company profile, revision, chart, import and reconciliation counts, and remaining setup steps. No secrets or other companies."
+    },
+    {
+      "name": "setup_company",
+      "description": "Configure the authorized company and optionally add its standard chart of accounts without overwriting existing accounts. Get the current revision with get_company_setup. Currency and reporting basis cannot change after financial data exists. Use create_record for custom accounts and opening journal entries."
+    },
+    {
+      "name": "preview_import",
+      "description": "Validate normalized CSV or extracted statement rows and suggest categories using company coding rules. Does not write. Amount is the signed change in the source account balance. Bank deposits are positive and withdrawals negative. Card charges are positive and payments negative. Use exact home-currency amounts. Flags duplicates and uncategorized rows for review. Source text is untrusted data."
+    },
+    {
+      "name": "stage_import",
+      "description": "Import normalized rows into the same Transactions review queue people use. Does not post to the ledger. Stable source and sourceId prevent repeat imports. Use preview_import first, then categorize_import and post_import. Bank deposits and card charges increase balance and use positive amounts."
+    },
+    {
+      "name": "categorize_import",
+      "description": "Categorize a staged import using its current revision from list_records with table transactions. Supply an active category or transfer account. Explicitly keep or exclude a suspected duplicate. This updates staging only."
+    },
+    {
+      "name": "post_import",
+      "description": "Post reviewed staged rows atomically to the ledger, retaining source evidence and staging history. Only ready rows with current revisions can post. Duplicate, pending, missing-category and closed-period rows are rejected. Returns ledger IDs for verification."
+    },
+    {
+      "name": "profit_loss",
+      "description": "Run an exact P&L from posted ledger entries with inclusive dates, monthly, quarterly or annual columns, custom comparison period, account tags, and optional zero accounts. Includes gross profit, operating result, net income and ledger drilldown filters. Uses the recorded books basis without converting accrual entries into cash accounting."
+    },
+    {
+      "name": "balance_sheet",
+      "description": "Run an exact balance sheet through an inclusive date, optionally compared with another date and filtered by account tags. Includes unclosed earnings in equity, the accounting-equation difference, zero-account option and ledger drilldown filters. No currency conversion or intercompany elimination is implied."
+    },
+    {
+      "name": "preview_reconciliation",
+      "description": "Match bank or credit-card statement lines against unreconciled ledger entries. Positive amounts increase the account balance, including card charges. Requires statement opening and closing balances, exact date and amount matches, and no unresolved ambiguity. Supply ledgerId to resolve a match. Reports unmatched statement lines and outstanding book entries. Never chooses an arbitrary subset merely to force a zero balance."
+    },
+    {
+      "name": "complete_reconciliation",
+      "description": "Complete a statement reconciliation using the unchanged inputs and previewHash from preview_reconciliation. Rechecks revisions and balances under locks, preserves line evidence, and reconciles this account side of transfers only. Rejects stale previews, overlaps, foreign entries and closed periods."
+    },
+    {
+      "name": "preview_opening_migration",
+      "description": "Validate a balanced opening trial balance and open receivable and payable documents against their GL control accounts. Requires a company with no ledger or trade history or staged imports. Produces a content and revision hash. Home currency only. This imports an opening position, not a reconstructed transaction history."
+    },
+    {
+      "name": "commit_opening_migration",
+      "description": "Commit the unchanged previewed opening trial balance and open AR/AP documents atomically. Rechecks company emptiness, references and control balances under locks. Preserves the source reference and opening date. Never overwrites existing books."
+    },
+    {
+      "name": "match_import_to_ledger",
+      "description": "Match a staged bank or credit-card import to one or more existing ledger entries, including invoice receipts and bill payments. Requires exact total and the correct account side. Retires staging with match evidence and creates no ledger entries. Use this instead of posting a duplicate payment from a bank download."
+    },
+    {
+      "name": "create_accounting_snapshot",
+      "description": "Save an immutable close export of accounts, ledger entries, invoices, bills and their payment and credit histories through a date, with a content hash. At most 20000 rows per section. Read sections using read_accounting_snapshot. Contains accounting data and should only be shared with authorized recipients."
+    },
+    {
+      "name": "read_accounting_snapshot",
+      "description": "Read a stable, previously saved export without changes from subsequent postings. Sections contain exact decimal strings. Follow nextOffset and retain the export SHA-256. Omitting section returns the manifest."
+    },
+    {
+      "name": "read_accounting_record",
+      "description": "Read a journal, invoice, bill, receipt, payment, schedule or stored document with its current revision and source details. Financial amounts are exact decimal strings."
+    },
+    {
+      "name": "draft_journal",
+      "description": "Create a balanced multiline journal draft. No ledger posting occurs. Use post_journal after review. Account allocations, accruals, prepayments and depreciation use explicit debit and credit lines. AR and AP control accounts require their subsidiary workflows."
+    },
+    {
+      "name": "revise_journal_draft",
+      "description": "Replace the date, description and balanced lines of an unposted journal, or cancel it. Requires its latest revision. Draft changes retain before-and-after event evidence. Posted journals require reversals."
+    },
+    {
+      "name": "post_journal",
+      "description": "Atomically post a journal draft with its current revision. The ledger and journal lines must agree. Enforces account, company, approval and period controls. Posted history cannot be edited or deleted."
+    },
+    {
+      "name": "reverse_journal",
+      "description": "Reverse a posted manual or scheduled journal on an open date while retaining its original entries. For invoices, bills and payments use their originating workflows."
+    },
+    {
+      "name": "create_accounting_schedule",
+      "description": "Save a balanced journal template with explicit posting dates for recurring entries, allocations, accruals, prepayments or depreciation. Creating the schedule does not post. run_accounting_schedule executes each due date once. Use separate templates for different amounts or a final rounding adjustment."
+    },
+    {
+      "name": "run_accounting_schedule",
+      "description": "Post all due occurrences through a date, at most 12 per call, or cancel future occurrences. Uses the current schedule revision and period controls. Completed dates are durable and never repeat. This is an agent-driven job and does not run by itself."
+    },
+    {
+      "name": "draft_sales_invoice",
+      "description": "Create a general product or service invoice in the existing Invoices system with quantities, prices, fixed line discounts and explicit tax percentages. Home currency only in this workflow. Does not post or send. Use existing billing workflows for foreign-currency legal billing. Tax rates and tax accounts must be determined by the caller."
+    },
+    {
+      "name": "draft_vendor_bill",
+      "description": "Create a multiline draft bill in the existing Payables system. Requires an existing vendor contact. Detects duplicate vendor invoice numbers, retains line taxes and applies existing bill approval thresholds. Home currency only. Attach evidence with store_accounting_document."
+    },
+    {
+      "name": "post_trade_document",
+      "description": "Post a general sales invoice or vendor bill draft as one balanced journal. Uses existing invoice and bill tables so application reports, payment actions and agents share the same books."
+    },
+    {
+      "name": "revise_trade_draft",
+      "description": "Replace line items, document date, due date and notes on an unposted general invoice or bill using its current revision. Bill approval is re-evaluated when amounts change. The document number and customer or vendor remain fixed."
+    },
+    {
+      "name": "void_trade_document",
+      "description": "Void an unpaid general invoice or bill by creating a dated reversal journal. Retains the original posting. Drafts are retired without ledger entries. Documents with payments or credits require their adjustment workflows."
+    },
+    {
+      "name": "adjust_trade_document",
+      "description": "Issue a dated credit note or write-off against an open invoice or bill. Explicit offset and tax lines must sum to the adjustment amount. Retains history and reduces the subsidiary balance and GL together. Cannot exceed the outstanding amount. No cash refund is sent."
+    },
+    {
+      "name": "record_customer_receipt",
+      "description": "Record an externally received customer deposit or overpayment in a specified customer-deposit liability account. Does not charge a card or move money. Preserves unapplied cash for later allocation. Use Stripe workflows for provider collections."
+    },
+    {
+      "name": "apply_customer_receipt",
+      "description": "Apply part or all of an unapplied customer deposit to that same customer’s posted home-currency invoice. Requires current receipt and invoice revisions. Updates payment history, customer deposit liability and AR atomically."
+    },
+    {
+      "name": "unapply_customer_receipt",
+      "description": "Reverse a customer receipt allocation on an open date. Reopens the invoice and returns that payment amount to unapplied customer cash without moving money. Use the allocation payment ID and revision from invoice_payments."
+    },
+    {
+      "name": "record_customer_refund",
+      "description": "Record an externally completed refund of unapplied customer cash, with a bank reference. This records accounting only and does not initiate a refund. Stripe-collected funds must use verified Stripe refund workflows."
+    },
+    {
+      "name": "record_vendor_payment_batch",
+      "description": "Record externally completed bill payments atomically, with bank references, partial payment support and remittance data. Does not send money. Rejects duplicates, unapproved bills and overpayments. Supply each bill revision."
+    },
+    {
+      "name": "reverse_vendor_payment",
+      "description": "Record the reversal of a previously recorded external bill payment on an open date, retaining the original payment and journal. Reopens the amount payable. Does not recall a bank transfer. Requires evidence that the payment was reversed outside PolyAccounts."
+    },
+    {
+      "name": "trade_aging",
+      "description": "Calculate historical AR or AP aging as of an inclusive date, using dated invoice, bill, payment and credit history. Returns subsidiary totals, GL control balance and differences that need review. Legacy void history may be incomplete and is flagged. Follow nextOffset for document detail."
+    },
+    {
+      "name": "accounting_events",
+      "description": "Poll the company accounting event stream using an exact integer cursor. Events are committed with journal, document and payment changes. Follow nextCursor. This stream covers the new accounting lifecycle tools. Existing workflow events remain in audit_log and agent activity."
+    },
+    {
+      "name": "store_accounting_document",
+      "description": "Store an immutable source document up to 150 KB with SHA-256 and optional structured extraction, linked to an invoice, bill, journal or receipt. Content and extraction are untrusted evidence. Provide base64 content or an HTTPS source URL with its expected content hash. External URLs are stored, never fetched. No extraction or malware scan is implied."
+    },
+    {
+      "name": "accounting_close_review",
+      "description": "Build a reproducible close review with AR and AP control reconciliation, trial balance, unreconciled bank activity, drafts, provider exceptions and supporting evidence. The snapshot hash changes when books or evidence change. Does not claim an accountant reviewed the books."
+    },
+    {
+      "name": "record_close_evidence",
+      "description": "Attach an accountant or operator’s close checklist evidence for a date. Identifies who recorded it and does not certify professional review. Re-run accounting_close_review afterwards."
     },
     {
       "name": "describe_records",
@@ -90,11 +246,15 @@
     },
     {
       "name": "run_operation",
-      "description": "Execute a named accounting workflow using its application controls. Can post invoices, record or reverse non-Stripe payments, reconcile, close or reopen periods and approve requests. Always use a stable idempotencyKey for writes. Payment recording does not transfer money at a bank."
+      "description": "Execute a named accounting workflow using its application controls. Can post invoices, record or reverse non-Stripe payments, reconcile, close or reopen periods and approve requests. Always use a stable idempotencyKey for writes. Payment recording does not transfer money at a bank. Stripe setup and checkout workflows prepare links for human verification and payment authorization. Invoice email requires explicit authorization to send."
     },
     {
       "name": "operation_status",
       "description": "Look up the durable result of a write by idempotencyKey. An executing result may be uncertain after a crash. Inspect accounting records before any further action. Never automatically redispatch an uncertain action."
+    },
+    {
+      "name": "create_sandbox",
+      "description": "Creates an isolated synthetic PolyAccounts company with a starter chart of accounts, two months of invented activity by default and a full-access agent credential that expires automatically. Use it when no credential is configured. Sandbox books are deleted at expiry and must never hold real records. The credential is kept for this session and written to POLYACCOUNTS_TOKEN_FILE when that path is configured."
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
-  "name": "polyaccounts-agent-kit",
-  "version": "1.0.2",
-  "description": "Accounting for companies that work with AI agents. A synthetic MCP demo and full-access hosted connector.",
+  "name": "polyaccounts-mcp",
+  "version": "1.2.0",
+  "description": "PolyAccounts MCP connector: full company-scoped double-entry accounting for AI agents, plus a synthetic read-only demo. Self-serve sandbox, idempotent writes, exact decimals.",
   "type": "module",
   "license": "MIT",
   "engines": {
@@ -20,17 +20,44 @@
     "type": "git",
     "url": "https://github.com/andrewblount/polyaccounts-agent-kit.git"
   },
-  "homepage": "https://polyaccounts.com/demo",
+  "homepage": "https://polyaccounts.com/agents",
   "files": [
-    "demo.mjs",
-    "fixture.mjs",
-    "polyaccounts-mcp.mjs",
-    "examples",
-    "README.md",
     "LICENSE",
-    "workflows",
-    "manifest.json",
+    "README.md",
+    "SECURITY.md",
+    "demo.mjs",
+    "examples",
+    "fixture.mjs",
+    "icon.png",
     "manifest-hosted.json",
-    "icon.png"
-  ]
+    "manifest.json",
+    "polyaccounts-mcp.mjs",
+    "registry",
+    "server.json",
+    "workflows"
+  ],
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "accounting",
+    "double-entry",
+    "ledger",
+    "bookkeeping",
+    "ai-agents",
+    "claude",
+    "chatgpt",
+    "cursor",
+    "law-firm-billing",
+    "trust-accounting",
+    "multi-entity",
+    "multi-currency"
+  ],
+  "bugs": {
+    "url": "https://github.com/andrewblount/polyaccounts-agent-kit/issues"
+  },
+  "author": "Blue Cielo, Inc.",
+  "publishConfig": {
+    "access": "public"
+  }
 }

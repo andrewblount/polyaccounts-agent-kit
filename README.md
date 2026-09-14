@@ -7,17 +7,30 @@ This repository contains only public connector code and invented demonstration d
 
 | Connection | What it does | What you need |
 | --- | --- | --- |
+| Sandbox | A synthetic company with a starter chart of accounts, two months of activity and a 7-day full-access credential, created by the agent itself | `npx -y --package=https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.2.0/polyaccounts-mcp-1.2.0.tgz polyaccounts-mcp`, then call `create_sandbox` |
+| Remote MCP | Streamable HTTP at `https://polyaccounts.com/mcp` with OAuth 2.1 | A client that supports remote MCP (Claude, ChatGPT, Cursor and others); an administrator approves once |
+| Hosted connector (stdio) | Full company-scoped reads, creation, updates, soft deletion and documented accounting workflows | Node.js 20 or later and a credential from Settings, or a sandbox |
 | Synthetic demo | Four read-only tools, two review prompts, an invented company | Node.js 20 or later, or an MCPB-compatible desktop client |
-| Hosted connector | Full company-scoped reads, creation, updates, soft deletion and accounting workflows | Approved synthetic workspace and administrator-issued credential |
 
-PolyAccounts is in early access for supervised evaluation with synthetic data.
-Do not use this release for real customer books or statutory accounting. The demo
-does not establish hosted production readiness. The hosted API is not a remote MCP
-URL or OAuth connection. Your client must support stdio MCP or desktop extensions.
+```sh
+npx -y --package=https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.2.0/polyaccounts-mcp-1.2.0.tgz polyaccounts-mcp        # full connector. with no credential, call create_sandbox
+npx -y --package=https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.2.0/polyaccounts-mcp-1.2.0.tgz polyaccounts-demo   # read-only synthetic demo
+```
+
+PolyAccounts is in early access. Evaluate with synthetic data in a sandbox or an
+approved workspace. Do not use this release for real customer books or statutory
+accounting. Reads are not metered. Limits and quotas: https://polyaccounts.com/limits.
+
+## Workflows
+
+Reusable, model-agnostic procedures in [`workflows/`](workflows/): expense review,
+financial review, [matter billing cycle](workflows/matter-billing-cycle.md) for law
+firms, [month-end close](workflows/month-end-close.md), and [trust three-way
+reconciliation](workflows/trust-reconciliation.md).
 
 ## Install the demo
 
-Download [polyaccounts-demo.mcpb](https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.0.2/polyaccounts-demo.mcpb)
+Download [polyaccounts-demo.mcpb](https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.2.0/polyaccounts-demo.mcpb)
 and open it in an MCPB-compatible client. For Claude Desktop, use Settings,
 Extensions, Advanced settings, Install Extension. Review the extension before installing.
 No account, database, API key or network connection is needed after installation.
@@ -31,7 +44,7 @@ For a stdio client, use this pinned configuration.
       "command": "npx",
       "args": [
         "--yes",
-        "--package=https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.0.2/polyaccounts-agent-kit-1.0.2.tgz",
+        "--package=https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.2.0/polyaccounts-mcp-1.2.0.tgz",
         "polyaccounts-demo"
       ]
     }
@@ -70,7 +83,7 @@ missing or the expected change does not reconcile. [Inspect the evidence in a br
 
 ## Connect with full accounting access
 
-Download [polyaccounts-hosted.mcpb](https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.0.2/polyaccounts-hosted.mcpb)
+Download [polyaccounts-hosted.mcpb](https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.2.0/polyaccounts-hosted.mcpb)
 for the hosted connector. In an approved workspace, an administrator opens Settings,
 For AI agents, and issues a company credential. Enter it in the extension's sensitive
 configuration field. The client can read and write that company's accounting data.
