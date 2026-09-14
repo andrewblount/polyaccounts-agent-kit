@@ -16,7 +16,7 @@ const prompts = [
   { name: 'review_books', description: 'Check synthetic trial balance and inspect ledger evidence' },
 ];
 export function dispatch(method, params = {}) {
-  if (method === 'initialize') return { protocolVersion: ['2024-11-05', '2025-03-26', '2025-06-18'].includes(params.protocolVersion) ? params.protocolVersion : '2025-06-18', capabilities: { tools: {}, resources: {}, prompts: {} }, serverInfo: { name: 'polyaccounts-demo', version: '1.2.0' }, instructions: 'This server contains only invented data. Its current month is August 2026. Cite entry IDs. This demo is read-only. The separately installed hosted connector provides company-scoped read and write access.' };
+  if (method === 'initialize') return { protocolVersion: ['2024-11-05', '2025-03-26', '2025-06-18'].includes(params.protocolVersion) ? params.protocolVersion : '2025-06-18', capabilities: { tools: {}, resources: {}, prompts: {} }, serverInfo: { name: 'polyaccounts-demo', version: '1.2.1' }, instructions: 'This server contains only invented data. Its current month is August 2026. Cite entry IDs. This demo is read-only. The separately installed hosted connector provides company-scoped read and write access.' };
   if (method === 'ping') return {};
   if (method === 'tools/list') return { tools };
   if (method === 'prompts/list') return { prompts };

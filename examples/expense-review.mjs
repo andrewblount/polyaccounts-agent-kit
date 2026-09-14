@@ -12,7 +12,7 @@ const timer = setTimeout(() => { child.kill(); }, 10000);
 const request = (method, params = {}) => new Promise((resolve, reject) => { const requestId = ++id; pending.set(requestId, { resolve, reject }); child.stdin.write(JSON.stringify({ jsonrpc: '2.0', id: requestId, method, params }) + '\n'); });
 const call = async (name, args = {}) => { const result = await request('tools/call', { name, arguments: args }); if (result.isError) throw new Error(result.content[0].text); return result.structuredContent; };
 try {
-  await request('initialize', { protocolVersion: '2025-06-18', capabilities: {}, clientInfo: { name: 'expense-review-example', version: '1.2.0' } });
+  await request('initialize', { protocolVersion: '2025-06-18', capabilities: {}, clientInfo: { name: 'expense-review-example', version: '1.2.1' } });
   child.stdin.write(JSON.stringify({ jsonrpc: '2.0', method: 'notifications/initialized' }) + '\n');
   const context = await call('accounting_context');
   const report = await call('expense_changes');

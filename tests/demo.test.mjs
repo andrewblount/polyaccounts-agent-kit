@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, symlinkSync, rmSync } from 'node:fs';
+import { mkdtempSync, symlinkSync, rmSync, copyFileSync, chmodSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -38,5 +38,19 @@ test('npm-style executable symlink starts the MCP server', { skip: process.platf
     const link = join(dir, 'polyaccounts-demo'); symlinkSync(fileURLToPath(new URL('../demo.mjs', import.meta.url)), link);
     const child = spawnSync(process.execPath, [link], { input: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/list' }) + '\n', encoding: 'utf8', timeout: 5000 });
     assert.equal(child.status, 0, child.stderr); assert.equal(JSON.parse(child.stdout).result.tools.length, 4);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('hosted connector launches directly through its installed executable name', { skip: process.platform === 'win32' }, () => {
+  const dir = mkdtempSync(join(tmpdir(), 'polyaccounts-hosted-bin-'));
+  try {
+    const executable = join(dir, 'polyaccounts-mcp.mjs');
+    copyFileSync(new URL('../polyaccounts-mcp.mjs', import.meta.url), executable);
+    chmodSync(executable, 0o755);
+    const link = join(dir, 'polyaccounts-mcp'); symlinkSync(executable, link);
+    const child = spawnSync(link, [], { input: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/list' }) + '\n', encoding: 'utf8', timeout: 5000 });
+    assert.equal(child.status, 0, child.stderr);
+    const tools = JSON.parse(child.stdout).result.tools;
+    for (const name of ['create_sandbox','post_journal','trade_aging']) assert.ok(tools.some(t => t.name === name));
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });

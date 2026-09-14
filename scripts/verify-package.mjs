@@ -13,3 +13,9 @@ assert.equal(replies[0].result.serverInfo.version, version);
 assert.equal(replies[1].result.structuredContent.change, '650.0000');
 assert.equal(replies[1].result.structuredContent.evidence.length, 7);
 console.log(JSON.stringify({ installedPackage: packageRef, version, expenseChange: '650.0000', evidenceEntries: 7, status: 'passed' }));
+
+const hosted = spawnSync(process.platform === 'win32' ? 'npx.cmd' : 'npx', ['--yes', `--package=${packageRef}`, 'polyaccounts-mcp'], { encoding: 'utf8', input: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/list' }) + '\n', timeout: 15000, shell: process.platform === 'win32' });
+assert.equal(hosted.status, 0, hosted.stderr);
+const hostedTools = JSON.parse(hosted.stdout).result.tools;
+for (const name of ['create_sandbox','post_journal','trade_aging']) assert.ok(hostedTools.some(t => t.name === name));
+console.log(JSON.stringify({ installedPackage: packageRef, hostedTools: hostedTools.length, hostedLauncher: 'passed' }));

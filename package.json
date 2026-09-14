@@ -1,6 +1,6 @@
 {
   "name": "polyaccounts-mcp",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "PolyAccounts MCP connector: full company-scoped double-entry accounting for AI agents, plus a synthetic read-only demo. Self-serve sandbox, idempotent writes, exact decimals.",
   "type": "module",
   "license": "MIT",

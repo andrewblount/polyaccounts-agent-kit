@@ -3,7 +3,7 @@
   "name": "io.github.andrewblount/polyaccounts-demo",
   "title": "PolyAccounts synthetic accounting demo",
   "description": "Synthetic accounting MCP demo with exact balances and ledger evidence. No account or API key.",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "repository": {
     "url": "https://github.com/andrewblount/polyaccounts-agent-kit",
     "source": "github"
@@ -12,9 +12,9 @@
   "packages": [
     {
       "registryType": "mcpb",
-      "identifier": "https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.2.0/polyaccounts-demo.mcpb",
-      "version": "1.2.0",
-      "fileSha256": "dfe8179efdc3cf589731e3bfdd5d16ced9de310378279b2885f41be9cc33ac29",
+      "identifier": "https://github.com/andrewblount/polyaccounts-agent-kit/releases/download/v1.2.1/polyaccounts-demo.mcpb",
+      "version": "1.2.1",
+      "fileSha256": "1b82ed8c100698c79916f8465277a3a00dc01b49bd98a41f956e0e059612392b",
       "transport": {
         "type": "stdio"
       }
